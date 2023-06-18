@@ -12,6 +12,7 @@ import HighestVolumeAuctions from '../../components/auctions/HighestVolumeAuctio
 import { ButtonCSS } from '../../components/buttons/buttonStylingTypes'
 import { Send } from '../../components/icons/Send'
 import { useAllAuctionInfo } from '../../hooks/useAllAuctionInfos'
+import { useAltarData } from '../../hooks/useAltarDetails'
 import { useInterestingAuctionInfo } from '../../hooks/useInterestingAuctionDetails'
 import { useSetNoDefaultNetworkId } from '../../state/orderPlacement/hooks'
 
@@ -192,87 +193,11 @@ export const Landing: React.FC = () => {
   const featuredAuctions = useInterestingAuctionInfo()
   const highestVolumeAuctions = useInterestingAuctionInfo({ closedAuctions: true })
 
+  const altarData = useAltarData()
+
   useSetNoDefaultNetworkId()
 
-  return (
-    <>
-      <Welcome>
-        <WelcomeTextBlock>
-          <WelcomeTitle>
-            The fairest mechanism
-            <br />
-            <TextGradient>to launch assets on Ethereum</TextGradient>
-          </WelcomeTitle>
-          <WelcomeText>
-            Gnosis Auction is a platform for conducting
-            <br /> fair, transparent, and decentralized token price discovery.
-          </WelcomeText>
-        </WelcomeTextBlock>
-        <AuctionsBlock>
-          <AuctionsImage alt="" src={AuctionsIcon} />
-          {allAuctions && allAuctions.length > 0 && (
-            <AuctionsText>
-              {
-                allAuctions.filter(
-                  (auction) => new Date(auction.endTimeTimestamp * 1000) > new Date(),
-                ).length
-              }{' '}
-              active auctions
-            </AuctionsText>
-          )}
-          <AuctionsButton to="/overview#topAnchor">
-            <SendIcon />
-            View Auctions
-          </AuctionsButton>
-        </AuctionsBlock>
-      </Welcome>
-      {featuredAuctions && (
-        <Featured className="featuredAuctions" featuredAuctions={featuredAuctions} />
-      )}
-      <HighestVolumeAuctions highestVolumeAuctions={highestVolumeAuctions} />
-      <BlockGrid>
-        <TextBlock>
-          <SubTitle>Best Price Discovery</SubTitle>
-          <Text>
-            Batch auctions set the price exactly where supply and demand meet. This ensures the same
-            fair price for all participants.
-          </Text>
-        </TextBlock>
-        <ImageBlock align="right">
-          <img src={BestPriceDiscovery} style={{ width: 234, height: 234 }} />
-        </ImageBlock>
-      </BlockGrid>
-      <BlockGrid>
-        <ImageBlock align="left">
-          <img src={FairAndResistant} style={{ width: 234, height: 234 }} />
-        </ImageBlock>
-        <TextBlock>
-          <SubTitle>Fair And Resistant</SubTitle>
-          <Text>
-            Avoid gas wars and other forms of manipulation. Willingness to pay determines final
-            prices and timed batches protect the users from frontrunning.
-          </Text>
-        </TextBlock>
-      </BlockGrid>
-      <BlockGrid>
-        <TextBlock>
-          <SubTitle>Easy to use</SubTitle>
-          <Text>
-            Bidders can easily participate in auctions by just determining two parameters, amount
-            &amp; price, while auctioneers can start an auction by using the Gnosis Safe App or by
-            running a simple script.
-          </Text>
-        </TextBlock>
-        <ImageBlock align="right">
-          <img src={EasyToUse} style={{ width: 234, height: 234 }} />
-        </ImageBlock>
-      </BlockGrid>
-      <ButtonWrapper>
-        <AuctionsButton to="/overview#topAnchor">
-          <SendIcon />
-          View Auctions
-        </AuctionsButton>
-      </ButtonWrapper>
-    </>
-  )
+  console.log(altarData)
+
+  return <></>
 }

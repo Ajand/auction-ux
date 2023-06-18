@@ -10,7 +10,9 @@ export enum NetworkError {
 
 export const useNetworkCheck = (): { errorWrongNetwork: NetworkError | undefined } => {
   const { account, chainId: injectedChainId } = useActiveWeb3React()
-  const { chainId } = useOrderPlacementState()
+  //const { chainId } = useOrderPlacementState()
+
+  const chainId = 5
 
   const errorWrongNetwork =
     injectedChainId === undefined

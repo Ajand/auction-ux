@@ -14,7 +14,7 @@ import {
 } from '../../../state/orderPlacement/hooks'
 import { AuctionIdentifier } from '../../../state/orderPlacement/reducer'
 import { useOrderbookState } from '../../../state/orderbook/hooks'
-import { getExplorerLink, getTokenDisplay, shortenAddress } from '../../../utils'
+import { getExplorerLink, getTokenDisplay, isAddress, shortenAddress } from '../../../utils'
 import { abbreviation } from '../../../utils/numeral'
 import { showChartsInverted } from '../../../utils/prices'
 import { KeyValue } from '../../common/KeyValue'
@@ -265,6 +265,8 @@ const AuctionDetails = (props: Props) => {
   )
   const { auctionDetails } = useAuctionDetails(auctionIdentifier)
 
+  console.log('here', auctionIdentifier, auctionDetails)
+
   const { showPriceInverted } = useOrderPlacementState()
   const { orderbookPrice: auctionCurrentPrice, orderbookPriceReversed: auctionPriceReversed } =
     useOrderbookState()
@@ -359,6 +361,8 @@ const AuctionDetails = (props: Props) => {
         : auctionDetails?.allowListSigner,
     [auctionDetails?.allowListSigner],
   )
+
+  console.log('hi', auctionDetails)
 
   const extraDetails: Array<ExtraDetailsItemProps> = React.useMemo(
     () => [
@@ -460,7 +464,9 @@ const AuctionDetails = (props: Props) => {
         tooltip: 'Signer Address',
         url: getExplorerLink(chainId, allowListSigner, 'address'),
         value: `${
-          auctionDetails && !zeroAddressRegex.test(auctionDetails?.allowListSigner)
+          auctionDetails &&
+          !zeroAddressRegex.test(auctionDetails?.allowListSigner) &&
+          isAddress(auctionDetails?.allowListSigner)
             ? shortenAddress(allowListSigner)
             : 'None'
         }`,

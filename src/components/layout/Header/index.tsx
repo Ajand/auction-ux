@@ -119,13 +119,14 @@ const ErrorText = styled.span`
 export const Component: React.FC = (props) => {
   const location = useLocation()
   const { connector, isConnected } = useAccount()
-  const { chainId } = useOrderPlacementState()
   const { disconnectAsync } = useDisconnect()
   const { connectAsync } = useConnect()
   const { errorWrongNetwork } = useNetworkCheck()
   const { switchNetworkAsync } = useSwitchNetwork()
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false)
   const toggleWalletModal = useWalletModalToggle()
+
+  const chainId = 5
 
   const mobileMenuToggle = () => {
     setMobileMenuVisible(!mobileMenuVisible)
@@ -140,14 +141,12 @@ export const Component: React.FC = (props) => {
     chainNamesFormatted += getChainName(Number(chains[count])) + postPend
   }
 
-  const isAuctionPage = React.useMemo(
-    () => location.pathname.includes('/auction'),
-    [location.pathname],
-  )
   const chainMismatch = React.useMemo(
-    () => errorWrongNetwork === NetworkError.noChainMatch && isAuctionPage,
-    [errorWrongNetwork, isAuctionPage],
+    () => errorWrongNetwork === NetworkError.noChainMatch,
+    [errorWrongNetwork],
   )
+
+  console.log(errorWrongNetwork)
   const trySwitchingNetworks = useCallback(async (): Promise<void> => {
     if (switchNetworkAsync && chainId && chainMismatch)
       switchNetworkAsync(chainId).catch(() => {
