@@ -109,7 +109,7 @@ const Claimer: React.FC<Props> = (props) => {
 
   const resetModal = () => setPendingConfirmation(true)
 
-  const onClaimOrder = () =>
+  const onClaimOrder = () => {
     claimOrderCallback()
       .then((hash) => {
         setTxHash(hash)
@@ -121,6 +121,7 @@ const Claimer: React.FC<Props> = (props) => {
         setShowConfirm(false)
         setUserConfirmedTx(false)
       })
+  }
 
   const biddingTokenDisplay = useMemo(
     () => getFullTokenDisplay(biddingToken, chainId),

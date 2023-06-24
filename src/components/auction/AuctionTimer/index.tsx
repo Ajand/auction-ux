@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   align-items: center;
   background: ${({ theme }) => theme.primary3};
   border-radius: 50%;
-  box-shadow: inset 0 0 3px 0 ${({ theme }) => theme.mainBackground};
+  border: 2px solid black;
   display: flex;
   height: ${TIMER_SIZE};
   justify-content: center;
@@ -32,6 +32,7 @@ const ProgressChart = styled.div<{ progress?: string }>`
     ${({ theme }) => theme.primary1} calc(${(props) => props.progress}),
     rgba(255, 255, 255, 0) 0%
   );
+
   border-radius: 50%;
   display: flex;
   height: calc(${TIMER_SIZE} - 5px);
@@ -45,7 +46,7 @@ ProgressChart.defaultProps = {
 
 const InnerCircle = styled.div`
   align-items: center;
-  background: ${({ theme }) => theme.primary3};
+
   border-radius: 50%;
   display: flex;
   height: ${INNER_CIRCLE_SIZE};
@@ -55,9 +56,10 @@ const InnerCircle = styled.div`
 
 const CenterCircle = styled.div`
   align-items: center;
+  border: 2px solid black;
+
   background-color: ${({ theme }) => theme.mainBackground};
   border-radius: 50%;
-  box-shadow: 0 0 10px 0px ${({ theme }) => theme.mainBackground};
   display: flex;
   flex-flow: column;
   height: calc(${INNER_CIRCLE_SIZE} - 4px);
@@ -66,7 +68,7 @@ const CenterCircle = styled.div`
 `
 
 const Time = styled.div`
-  color: ${({ theme }) => theme.primary1};
+  color: black;
   flex-shrink: 1;
   font-size: 20px;
   font-weight: 700;

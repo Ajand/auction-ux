@@ -538,49 +538,7 @@ const AllAuctions = (props: Props) => {
   return (
     <Wrapper ref={sectionHead} {...restProps}>
       <SectionTitle style={{ display: 'block' }}>Auctions</SectionTitle>
-      <TableControls>
-        <SearchWrapper>
-          <Magnifier />
-          <SearchInput
-            onChange={(e) => {
-              setGlobalFilter(e.target.value)
-            }}
-            placeholder={`Search by auction Id, selling token, buying token, date…`}
-            value={state.globalFilter || ''}
-          />
-          <DeleteSearchTerm
-            disabled={!state.globalFilter}
-            onClick={() => {
-              setGlobalFilter(undefined)
-            }}
-          >
-            <Delete />
-          </DeleteSearchTerm>
-        </SearchWrapper>
-        <Dropdown
-          dropdownButtonContent={
-            <ButtonSelect
-              content={
-                <span>
-                  {!currentDropdownFilter ? filterOptions[0].title : currentDropdownFilter}
-                </span>
-              }
-            />
-          }
-          dropdownPosition={DropdownPosition.right}
-          items={filterOptions.map((item, index) => (
-            <DropdownItem
-              key={index}
-              onClick={() => {
-                item.onClick(item.column, item.value)
-                setCurrentDropdownFilter(item.title)
-              }}
-            >
-              {item.title}
-            </DropdownItem>
-          ))}
-        />
-      </TableControls>
+
       {noData ? (
         <EmptyContentWrapper>
           <InfoIcon />

@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 import AllAuctions from '../../components/auctions/AllAuctions'
-import { FeaturedAuctions } from '../../components/auctions/FeaturedAuctions'
 import { InlineLoading } from '../../components/common/InlineLoading'
 import { Tooltip } from '../../components/common/Tooltip'
 import { ChevronRightBig } from '../../components/icons/ChevronRightBig'
@@ -15,7 +14,7 @@ import {
   useAllAuctionInfo,
   useAllAuctionInfoWithParticipation,
 } from '../../hooks/useAllAuctionInfos'
-import { useInterestingAuctionInfo } from '../../hooks/useInterestingAuctionDetails'
+import { useAltarData } from '../../hooks/useAltarDetails'
 import { useSetNoDefaultNetworkId } from '../../state/orderPlacement/hooks'
 import { getChainName } from '../../utils/tools'
 
@@ -55,14 +54,23 @@ interface OverviewProps {
 const OverviewCommon = ({ allAuctions }: OverviewProps) => {
   const tableData = []
 
-  const featuredAuctions = useInterestingAuctionInfo()
+  const altarData = useAltarData()
 
-  const allAuctionsSorted = allAuctions?.sort((a, b) => {
-    return b.endTimeTimestamp - a.endTimeTimestamp
-    // const aStatus = new Date(a.endTimeTimestamp * 1000) > new Date() ? 'Ongoing' : 'Ended'
-    // const bStatus = new Date(b.endTimeTimestamp * 1000) > new Date() ? 'Ongoing' : 'Ended'
-    // return bStatus.localeCompare(aStatus) || b.interestScore - a.interestScore
-  })
+  console.log(altarData)
+
+  const allAuctionsSorted = allAuctions
+    ?.sort((a, b) => {
+      return b.endTimeTimestamp - a.endTimeTimestamp
+      // const aStatus = new Date(a.endTimeTimestamp * 1000) > new Date() ? 'Ongoing' : 'Ended'
+      // const bStatus = new Date(b.endTimeTimestamp * 1000) > new Date() ? 'Ongoing' : 'Ended'
+      // return bStatus.localeCompare(aStatus) || b.interestScore - a.interestScore
+    })
+    .filter((auction) => auction.chainId === '0x05')
+    .filter((auction) =>
+      altarData.altarInfo?.auctions
+        .map((id) => Number(id).toString())
+        .includes(String(auction.auctionId)),
+    )
 
   useSetNoDefaultNetworkId()
 
@@ -116,11 +124,11 @@ const OverviewCommon = ({ allAuctions }: OverviewProps) => {
 
   const isLoading = React.useMemo(
     () =>
-      featuredAuctions === undefined ||
-      featuredAuctions === null ||
+      altarData.loading ||
+      !altarData.altarInfo ||
       allAuctions === undefined ||
       allAuctions === null,
-    [allAuctions, featuredAuctions],
+    [allAuctions, altarData],
   )
 
   return (
@@ -128,7 +136,6 @@ const OverviewCommon = ({ allAuctions }: OverviewProps) => {
       {isLoading && <InlineLoading />}
       {!isLoading && (
         <>
-          <FeaturedAuctions featuredAuctions={featuredAuctions} />
           <AllAuctions tableData={tableData} />
         </>
       )}

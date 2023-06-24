@@ -59,7 +59,6 @@ const AppRoutes: React.FC = () => {
           textColor="#fff"
         />
         {/* <HeaderBanner /> */}
-        {showTopWarning && <TopDisclaimer />}
         <span id="topAnchor" />
         <Inner>
           <Web3ReactManager>

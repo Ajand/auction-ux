@@ -78,8 +78,8 @@ export const theme = (darkMode: boolean): DefaultTheme => ({
   ...colors(darkMode),
   fonts: {
     defaultSize: '14px',
-    fontFamily: `Averta, Arial, 'Helvetica Neue', 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans',-apple-system, BlinkMacSystemFont, sans-serif`,
-    fontFamilyCode: `source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace`,
+    fontFamily: `'Gloria Hallelujah',Averta, Arial, 'Helvetica Neue', 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans',-apple-system, BlinkMacSystemFont, sans-serif`,
+    fontFamilyCode: `'Gloria Hallelujah', source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace`,
   },
   grids: {
     sm: 8,
@@ -187,7 +187,7 @@ export const theme = (darkMode: boolean): DefaultTheme => ({
 })
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const darkMode = useIsDarkMode()
+  const darkMode = false //useIsDarkMode()
 
   const themeObject = useMemo(() => theme(darkMode), [darkMode])
 

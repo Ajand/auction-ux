@@ -78,6 +78,8 @@ const WarnMessageStyled: React.FC<{ children?: React.ReactNode }> = ({ children 
 )
 
 const SwapModalFooter: React.FC<Props> = (props) => {
+  console.log('are we fucking here???')
+
   const {
     auctioningToken,
     biddingToken,

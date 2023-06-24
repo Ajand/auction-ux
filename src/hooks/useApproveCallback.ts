@@ -28,8 +28,15 @@ export function useApproveCallback(
 ): [ApprovalState, () => Promise<void>] {
   const { account } = useActiveWeb3React()
 
+  console.log(amountToApprove, '-----')
+
   const currentAllowance = useTokenAllowance(amountToApprove?.token, account, addressToApprove)
   const pendingApproval = useHasPendingApproval(amountToApprove?.token?.address, addressToApprove)
+
+  console.log(
+    currentAllowance,
+    useTokenAllowance(amountToApprove?.token, account, addressToApprove),
+  )
 
   const { config } = usePrepareContractWrite({
     // @ts-ignore
@@ -56,6 +63,7 @@ export function useApproveCallback(
     ) {
       return ApprovalState.APPROVED
     }
+
     // amountToApprove will be defined if currentAllowance is
     return currentAllowance.lessThan(amountToApprove)
       ? pendingApproval

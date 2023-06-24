@@ -20,8 +20,10 @@ export function useTokenAllowance(
     enabled: !!token?.address,
   })
 
-  return useMemo(
-    () => (token && allowance ? new TokenAmount(token, allowance.toString()) : undefined),
-    [token, allowance],
-  )
+  return useMemo(() => {
+    return token && !isNaN(Number(allowance?.toString()))
+      ? // @ts-ignore
+        new TokenAmount(token, allowance?.toString())
+      : undefined
+  }, [token, allowance])
 }

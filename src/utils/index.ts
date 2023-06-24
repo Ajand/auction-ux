@@ -1,3 +1,5 @@
+import { ethers } from 'ethers'
+
 import { getAddress } from '@ethersproject/address'
 import { BigNumber } from '@ethersproject/bignumber'
 import { AddressZero } from '@ethersproject/constants'
@@ -25,6 +27,22 @@ export function isAddress(value: any): string | false {
   } catch {
     return false
   }
+}
+
+export const ALTAR_NETWORK = {
+  [ChainId.GÖRLI]: '0x068aAE6D83f5b456c06D13530b90fbbA4bd75e98',
+}
+
+export const SABLIER_NETWORK = {
+  [ChainId.GÖRLI]: '0xFc7E3a3073F88B0f249151192812209117C2014b',
+}
+
+export const FLX_NETWORK = {
+  [ChainId.GÖRLI]: '0xcDf649bd76C199FC99bEbBc48aE16426b9f67DdF',
+}
+
+export const KITE_NETWORK = {
+  [ChainId.GÖRLI]: '0x0494f45fcABF5edAb17ED75345c0c70Ed442125C',
 }
 
 export const EASY_AUCTION_NETWORKS: { [chainId in ChainId]: string } = {
@@ -236,4 +254,18 @@ export const checkIsContract = async (provider: PublicClient, address: string) =
   } catch (error) {
     return false
   }
+}
+
+export const formatAmount = (num: ethers.BigNumber) => {
+  const normalNum = Number(ethers.utils.formatEther(num))
+  const k = 1000
+  const mil = k * k
+  const bil = mil * k
+  const til = bil * k
+
+  if (normalNum < k) return normalNum
+  if (normalNum < mil) return `${normalNum / k}k`
+  if (normalNum < bil) return `${normalNum / mil}mil`
+  if (normalNum < til) return `${normalNum / bil}bil`
+  return normalNum
 }

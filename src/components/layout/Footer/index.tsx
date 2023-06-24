@@ -88,48 +88,7 @@ export const Footer: React.FC = (props) => {
   return (
     <Wrapper {...restProps}>
       <Inner>
-        <Item>
-          <ExternalLink
-            href="https://forum.gnosis.io/c/dao/20"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            {`©${year} GnosisDAO Forum`}
-          </ExternalLink>
-        </Item>
-        <Item>
-          <Link to="/terms-and-conditions#topAnchor">Terms</Link>
-        </Item>
-        <Item>
-          <Link to="/licenses#topAnchor">Licenses</Link>
-        </Item>
-        <Item>
-          <ExternalLink
-            href="https://dune.xyz/josojo/Gnosis-Auction"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Analytics
-          </ExternalLink>
-        </Item>
-        <Item>
-          <ExternalLink
-            href="https://discord.com/invite/M39dTHQ"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Support
-          </ExternalLink>
-        </Item>
-        <Item>
-          <ExternalLink
-            href="https://t.me/+APUOb1zLeRUzN2I1"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <TelegramIcon />
-          </ExternalLink>
-        </Item>
+        <Item>{`©${year} Altar of RAI`}</Item>
       </Inner>
     </Wrapper>
   )

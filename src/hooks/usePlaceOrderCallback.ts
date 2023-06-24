@@ -67,7 +67,7 @@ export function usePlaceOrderCallback(
     let previousOrder: string
 
     return async function onPlaceOrder() {
-      if (!chainId || !library || !account || !signature) {
+      if (!chainId || !library || !account) {
         throw new Error('missing dependencies in onPlaceOrder callback')
       }
 
@@ -157,6 +157,7 @@ export function usePlaceOrderCallback(
           return response.hash
         })
         .catch((error) => {
+          console.log(error)
           logger.error('Error writing transaction', error)
           throw error
         })

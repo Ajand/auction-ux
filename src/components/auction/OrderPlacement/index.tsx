@@ -214,12 +214,15 @@ const OrderPlacement: React.FC<OrderPlacementProps> = (props) => {
   const onPlaceOrder = () => {
     setAttemptingTxn(true)
 
+    console.log('???')
+
     placeOrderCallback()
       .then((hash) => {
+        console.log("I really don't understand")
         setTxHash(hash)
         setPendingConfirmation(false)
       })
-      .catch(() => {
+      .catch((err) => {
         resetModal()
         setShowConfirm(false)
       })
@@ -235,6 +238,9 @@ const OrderPlacement: React.FC<OrderPlacementProps> = (props) => {
     [auctioningToken, chainId],
   )
   const notApproved = approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING
+
+  console.log('not approved state is: ', notApproved, approval, ApprovalState)
+
   const orderPlacingOnly = auctionState === AuctionState.ORDER_PLACING
   const coversClearingPrice = (price: string | undefined, showPriceInverted: boolean): boolean => {
     const standardizedPrice = showPriceInverted

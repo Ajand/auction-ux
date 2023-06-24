@@ -9,6 +9,7 @@ import Claimer from '../Claimer'
 import OrderPlacement from '../OrderPlacement'
 import { OrderBookContainer } from '../OrderbookContainer'
 import OrdersTable from '../OrdersTable'
+import Settler from '../Settler'
 
 const Grid = styled.div`
   display: flex;
@@ -61,6 +62,8 @@ const AuctionBody = (props: AuctionBodyProps) => {
     [auctionState],
   )
 
+  console.log('hello world!', derivedAuctionInfo, auctionState)
+
   return (
     <>
       {auctionStarted && (
@@ -68,7 +71,11 @@ const AuctionBody = (props: AuctionBodyProps) => {
           <GridCol>
             <Wrap>
               <SectionTitle as="h2">
-                {auctionState === AuctionState.CLAIMING ? 'Claiming Proceeds' : 'Place Order'}
+                {auctionState === AuctionState.CLAIMING
+                  ? 'Claiming Proceeds'
+                  : auctionState === AuctionState.PRICE_SUBMISSION
+                  ? 'Settling'
+                  : 'Place Order'}
               </SectionTitle>
             </Wrap>
             {(auctionState === AuctionState.ORDER_PLACING ||
@@ -78,8 +85,13 @@ const AuctionBody = (props: AuctionBodyProps) => {
                 derivedAuctionInfo={derivedAuctionInfo}
               />
             )}
-            {(auctionState === AuctionState.CLAIMING ||
-              auctionState === AuctionState.PRICE_SUBMISSION) && (
+            {auctionState === AuctionState.PRICE_SUBMISSION && (
+              <Settler
+                auctionIdentifier={auctionIdentifier}
+                derivedAuctionInfo={derivedAuctionInfo}
+              />
+            )}
+            {auctionState === AuctionState.CLAIMING && (
               <Claimer
                 auctionIdentifier={auctionIdentifier}
                 derivedAuctionInfo={derivedAuctionInfo}

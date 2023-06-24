@@ -1,3 +1,4 @@
+import { ethers } from 'ethers'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { BigNumber } from '@ethersproject/bignumber'
@@ -53,6 +54,7 @@ export enum AuctionState {
   ORDER_PLACING,
   PRICE_SUBMISSION,
   CLAIMING,
+  SETTLING,
 }
 
 export function orderToSellOrder(
@@ -483,12 +485,14 @@ export function useDeriveAuctionState(
   auctionIdentifier: AuctionIdentifier,
 ): Maybe<AuctionState> {
   const [currentState, setCurrentState] = useState<Maybe<AuctionState>>(null)
-  const { clearingPriceSellOrder } = useOnChainAuctionData({
+  const { clearingPrice, clearingPriceSellOrder } = useOnChainAuctionData({
     auctionId: auctionDetails?.auctionId ?? auctionIdentifier.auctionId,
     chainId: Number(auctionDetails?.chainId ?? auctionIdentifier?.chainId),
   })
 
   const getCurrentState = useCallback(() => {
+    console.log('getting current state ...', clearingPrice)
+
     const auctioningTokenAddress: string | undefined = auctionDetails?.addressAuctioningToken
     let auctionState: Maybe<AuctionState> = null
     if (!auctioningTokenAddress) {
@@ -497,13 +501,15 @@ export function useDeriveAuctionState(
       const auctionEndDate = auctionDetails?.endTimeTimestamp
       const orderCancellationEndDate = auctionDetails?.orderCancellationEndDate
 
+      console.log(clearingPriceSellOrder, 'from here')
+
       if (auctionEndDate && auctionEndDate > new Date().getTime() / 1000) {
         auctionState = AuctionState.ORDER_PLACING
         if (orderCancellationEndDate && orderCancellationEndDate >= new Date().getTime() / 1000) {
           auctionState = AuctionState.ORDER_PLACING_AND_CANCELING
         }
       } else {
-        if (clearingPriceSellOrder?.buyAmount?.toSignificant(1) == '0') {
+        if (clearingPrice === ethers.constants.HashZero) {
           auctionState = AuctionState.PRICE_SUBMISSION
         } else {
           auctionState = AuctionState.CLAIMING
@@ -512,7 +518,7 @@ export function useDeriveAuctionState(
     }
 
     return auctionState
-  }, [auctionDetails, clearingPriceSellOrder])
+  }, [auctionDetails, clearingPriceSellOrder, clearingPrice])
 
   useEffect(() => {
     setCurrentState(getCurrentState())
@@ -591,6 +597,7 @@ export function useOnChainAuctionData(auctionIdentifier: AuctionIdentifier): {
   biddingToken?: Maybe<Token>
   clearingPriceSellOrder: Maybe<SellOrder>
   isLoading: boolean
+  clearingPrice: Maybe<string>
 } {
   const { auctionId, chainId } = auctionIdentifier
 
@@ -616,7 +623,7 @@ export function useOnChainAuctionData(auctionIdentifier: AuctionIdentifier): {
     useTokenByAddressAndAutomaticallyAdd(biddingTokenAddress)
 
   const clearingPriceSellOrder: Maybe<SellOrder> = decodeSellOrder(
-    auctionInfo?.clearingPriceOrder,
+    auctionInfo?.[8],
     biddingToken,
     auctioningToken,
   )
@@ -628,6 +635,7 @@ export function useOnChainAuctionData(auctionIdentifier: AuctionIdentifier): {
     biddingToken,
     clearingPriceSellOrder,
     isLoading,
+    clearingPrice: auctionInfo?.[8],
   }
 }
 

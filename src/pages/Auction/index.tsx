@@ -78,6 +78,8 @@ const Auction: React.FC<Props> = (props) => {
   const { tokens } = useTokenListState()
   const url = window.location.href
 
+  console.log(derivedAuctionInfo)
+
   const biddingTokenAddress = derivedAuctionInfo?.biddingToken?.address
   const auctioningTokenAddress = derivedAuctionInfo?.auctioningToken?.address
   const validBiddingTokenAddress =

@@ -131,6 +131,8 @@ const AmountInputPanel: React.FC<Props> = (props) => {
   const error = info?.type === InfoType.error
   const dataTip = unwrapMessage[chainId]
 
+  console.log('are we here?', unlock)
+
   return (
     <>
       <FieldRowWrapper error={error} {...restProps}>

@@ -42,7 +42,7 @@ export const XYChart = (props: XYChartProps): am4charts.XYChart => {
   const colors = {
     green: '#28a745',
     red: '#dc3545',
-    white: '#FFFFFF',
+    white: '#000',
     grey: '#565A69',
     orange: '#FF6347',
     tooltipBg: '#001429',

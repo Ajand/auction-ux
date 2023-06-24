@@ -48,6 +48,12 @@
         "internalType": "uint256",
         "name": "balance",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "auctionId",
+        "type": "uint256"
       }
     ],
     "name": "Poked",

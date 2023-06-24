@@ -265,8 +265,6 @@ const AuctionDetails = (props: Props) => {
   )
   const { auctionDetails } = useAuctionDetails(auctionIdentifier)
 
-  console.log('here', auctionIdentifier, auctionDetails)
-
   const { showPriceInverted } = useOrderPlacementState()
   const { orderbookPrice: auctionCurrentPrice, orderbookPriceReversed: auctionPriceReversed } =
     useOrderbookState()
